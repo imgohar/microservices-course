@@ -14,16 +14,17 @@ app.post('/events', (req, res) => {
 
   eventsArr.push(events);
 
-  axios.post('http://localhost:4000/events', {
+  axios.post('http://posts-cluster-srv:4000/events', {
     events,
   });
-  axios.post('http://localhost:4001/events', {
+
+  axios.post('http://comments-srv:4001/events', {
     events,
   });
-  axios.post('http://localhost:4002/events', {
+  axios.post('http://query-srv:4002/events', {
     events,
   });
-  axios.post('http://localhost:4003/events', {
+  axios.post('http://moderation-srv:4003/events', {
     events,
   });
   res.send({ status: 'OK' });
@@ -34,5 +35,5 @@ app.get('/events', (req, res) => {
 });
 
 app.listen(4005, () => {
-  console.log('Posts server is spinning on port 4005');
+  console.log('Event bus server is spinning on port 4005');
 });
