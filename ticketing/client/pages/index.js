@@ -1,15 +1,19 @@
-import Head from 'next/head';
+import axios from 'axios';
+import buildClient from './api/build-client';
 
-export default function Home() {
-  return (
-    <>
-      <Head>
-        <title>Create Next App</title>
-        <meta name="description" content="Ticketing App" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main>Hello World2</main>
-    </>
+const Home = ({ currentUser }) => {
+  return currentUser ? (
+    <h1>Your are signed in</h1>
+  ) : (
+    <h1>You are not signed in</h1>
   );
-}
+};
+
+Home.getInitialProps = async (context) => {
+  const client = buildClient(context);
+  const { data } = await client.get('/api/users/currentuser');
+
+  return data;
+};
+
+export default Home;
