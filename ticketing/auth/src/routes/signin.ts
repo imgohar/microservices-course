@@ -1,10 +1,9 @@
 import express, { Request, Response } from 'express';
 const router = express.Router();
 import { body } from 'express-validator';
-import { BadRequestError } from '../errors/bad-request-error';
 import { User } from '../models/user';
 import jwt from 'jsonwebtoken';
-import { validateRequest } from '../middlewares/validate-request';
+import { validateRequest, BadRequestError } from '@imgtickets/common';
 import { Password } from '../services/password';
 
 router.post(
