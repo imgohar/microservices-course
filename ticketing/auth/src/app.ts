@@ -9,7 +9,7 @@ import { signinRouter } from './routes/signin';
 import { signupRouter } from './routes/signup';
 import { signoutRouter } from './routes/signout';
 import { errorHandler, NotFound } from '@imgtickets/common';
-
+import morgan from 'morgan';
 const app = express();
 app.set('trust proxy', true);
 app.use(json());
@@ -19,6 +19,7 @@ app.use(
     secure: process.env.NODE_ENV !== 'test',
   })
 );
+app.use(morgan('dev'));
 
 app.use(signinRouter);
 app.use(signupRouter);
