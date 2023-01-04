@@ -5,6 +5,8 @@ import cookieSession from 'cookie-session';
 import { errorHandler, NotFound, currentUser } from '@imgtickets/common';
 import { createTicketRouter } from './routes/new';
 import morgan from 'morgan';
+import { showTicketRouter } from './routes/show';
+import { indexTicketRouter } from './routes/index';
 
 const app = express();
 app.set('trust proxy', true);
@@ -18,7 +20,9 @@ app.use(
 app.use(morgan('dev'));
 app.use(currentUser);
 
+app.use(indexTicketRouter);
 app.use(createTicketRouter);
+app.use(showTicketRouter);
 
 app.all('*', () => {
   throw new NotFound();
