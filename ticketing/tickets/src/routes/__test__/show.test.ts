@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 it('returns 404 if ticket is not found', async () => {
   const id = new mongoose.Types.ObjectId().toHexString();
   const response = await request(app)
-    .post(`/api/tickets/${id}`)
+    .get(`/api/tickets/${id}`)
     .send({})
     .expect(404);
 });
@@ -21,7 +21,7 @@ it('returns ticket if is not found', async () => {
     .expect(201);
 
   const ticketResponse = await request(app)
-    .post(`/api/tickets/${response.body.id}`)
+    .get(`/api/tickets/${response.body.id}`)
     .send({})
     .expect(200);
 
