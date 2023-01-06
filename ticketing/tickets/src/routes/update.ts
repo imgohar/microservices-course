@@ -8,6 +8,8 @@ import {
   NotFound,
 } from '@imgtickets/common';
 import { Ticket } from '../models/ticket';
+import { TicketUpdatedPublisher } from '../events/publishers/ticket-updated-publisher';
+import { natsWrapper } from '../nats-wrapper';
 
 router.put(
   '/api/tickets/:id',
@@ -38,6 +40,13 @@ router.put(
     });
 
     await ticket.save();
+
+    await new TicketUpdatedPublisher(natsWrapper.client).publish({
+      id: ticket.id,
+      title: ticket.title,
+      price: ticket.price,
+      userId: ticket.userId,
+    });
 
     res.status(200).send(ticket);
   }
