@@ -24,6 +24,14 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+    - image: imgohar/orders
+      context: orders
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
     - image: imgohar/client
       context: client
       docker:
