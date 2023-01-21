@@ -3,11 +3,11 @@ import { json } from 'body-parser';
 import 'express-async-errors';
 import cookieSession from 'cookie-session';
 import { errorHandler, NotFound, currentUser } from '@imgtickets/common';
-import { createTicketRouter } from './routes/new';
 import morgan from 'morgan';
-import { showTicketRouter } from './routes/show';
-import { indexTicketRouter } from './routes/index';
-import { updateTicketRouter } from './routes/update';
+import { newOrderRouter } from './routes/new';
+import { showOrderRouter } from './routes/show';
+import { indexOrderRouter } from './routes/index';
+import { deleteOrderRouter } from './routes/delete';
 
 const app = express();
 app.set('trust proxy', true);
@@ -21,10 +21,10 @@ app.use(
 app.use(morgan('dev'));
 app.use(currentUser);
 
-app.use(indexTicketRouter);
-app.use(createTicketRouter);
-app.use(showTicketRouter);
-app.use(updateTicketRouter);
+app.use(indexOrderRouter);
+app.use(newOrderRouter);
+app.use(showOrderRouter);
+app.use(deleteOrderRouter);
 
 app.all('*', () => {
   throw new NotFound();
