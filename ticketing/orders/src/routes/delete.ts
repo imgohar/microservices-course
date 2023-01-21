@@ -1,13 +1,9 @@
-import {
-  NotAuthorizedError,
-  NotFound,
-  OrderStatus,
-  requireAuth,
-} from '@imgtickets/common';
 import express, { Request, Response } from 'express';
+import { requireAuth, NotFound, NotAuthorizedError } from '@imgtickets/common';
+import { Order, OrderStatus } from '../models/order';
 import { OrderCancelledPublisher } from '../events/publishers/order-cancelled-publisher';
-import { Order } from '../models/order';
 import { natsWrapper } from '../nats-wrapper';
+
 const router = express.Router();
 
 router.delete(
@@ -21,17 +17,16 @@ router.delete(
     if (!order) {
       throw new NotFound();
     }
-
     if (order.userId !== req.currentUser!.id) {
       throw new NotAuthorizedError();
     }
-
     order.status = OrderStatus.Cancelled;
+    await order.save();
 
-    order.save();
-
+    // publishing an event saying this was cancelled!
     new OrderCancelledPublisher(natsWrapper.client).publish({
       id: order.id,
+      version: order.version,
       ticket: {
         id: order.ticket.id,
       },
