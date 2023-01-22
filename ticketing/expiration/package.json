@@ -18,7 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@imgtickets/common": "^1.0.11",
+    "@imgtickets/common": "^1.0.12",
     "@types/bull": "^4.10.0",
     "bull": "^4.10.2",
     "morgan": "^1.10.0",
